@@ -1,4 +1,6 @@
-package ru.podgoretskaya.deal.entity;
+package ru.podgoretskaya.deal.json;
+
+import ru.podgoretskaya.deal.entityEnum.ChangeType;
 
 import java.time.LocalTime;
 

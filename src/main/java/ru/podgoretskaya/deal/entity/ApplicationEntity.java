@@ -21,7 +21,7 @@ public class ApplicationEntity {
     @Id
     @SequenceGenerator(name = "ApplicationGenerator", initialValue = 1)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String applicationID;
+    private Long applicationID;
 
     @OneToOne
     @JoinColumn(name = "client_id")

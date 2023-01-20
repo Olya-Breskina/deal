@@ -9,3 +9,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: 'create-drop'
+server:
+  port: 8081
+logging:
+  level:
+    ru.podgoretskaya: DEBUG

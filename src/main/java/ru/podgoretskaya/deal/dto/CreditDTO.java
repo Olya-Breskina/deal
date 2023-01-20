@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+
 public class CreditDTO {
     private BigDecimal amount;
     private Integer term;

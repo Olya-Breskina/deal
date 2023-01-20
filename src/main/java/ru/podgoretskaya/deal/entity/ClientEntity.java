@@ -8,6 +8,7 @@ import org.hibernate.annotations.TypeDef;
 import ru.podgoretskaya.deal.entityEnum.Gender;
 import ru.podgoretskaya.deal.entityEnum.MaritalStatus;
 import ru.podgoretskaya.deal.json.Employment;
+import ru.podgoretskaya.deal.json.Passport;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,7 +17,6 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "Client")
-
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class ClientEntity {
     @Id
@@ -39,11 +39,12 @@ public class ClientEntity {
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private Long passportID;
+    private Passport passport;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private Employment employmentID;
+
     private String account;
 
     public ClientEntity() {

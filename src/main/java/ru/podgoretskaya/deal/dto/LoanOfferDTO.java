@@ -9,8 +9,6 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@ToString
 public class LoanOfferDTO {
     private Long applicationId;
     private BigDecimal requestedAmount;

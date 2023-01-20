@@ -1,6 +1,7 @@
 package ru.podgoretskaya.deal.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -11,6 +12,7 @@ import ru.podgoretskaya.deal.json.StatusHistory;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -38,12 +40,12 @@ public class ApplicationEntity {
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private LoanOfferDTO appliedOffer;
+    private List<LoanOfferDTO> appliedOffer;
 
     private String sesCode;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private StatusHistory statusHistiry;
+    private List<StatusHistory> statusHistiry;
 
 }

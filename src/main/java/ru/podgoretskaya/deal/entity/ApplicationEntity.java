@@ -1,6 +1,7 @@
 package ru.podgoretskaya.deal.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -17,6 +18,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "Application")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+
 public class ApplicationEntity {
     @Id
     @SequenceGenerator(name = "ApplicationGenerator", initialValue = 1)

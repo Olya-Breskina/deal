@@ -1,29 +1,19 @@
 package ru.podgoretskaya.deal.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import ru.podgoretskaya.deal.entityEnum.EmploymentPosition;
+import ru.podgoretskaya.deal.entityEnum.EmploymentStatus;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
 public class EmploymentDTO {
     private EmploymentStatus employmentStatus;
     private String employerINN;
     private BigDecimal salary;
-    private Position position;
+    private EmploymentPosition position;
     private Integer workExperienceTotal;
     private Integer workExperienceCurrent;
-
-    public enum EmploymentStatus {
-        UNEMPLOYED, SELF_EMPLOYED, EMPLOYED, BUSINESS_OWNER
-    }
-
-    public enum Position {
-        WORKER, MID_MANAGER, TOP_MANAGER, OWNER
-    }
 }

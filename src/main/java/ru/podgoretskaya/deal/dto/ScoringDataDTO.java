@@ -1,17 +1,18 @@
 package ru.podgoretskaya.deal.dto;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
+import ru.podgoretskaya.deal.entityEnum.Gender;
+import ru.podgoretskaya.deal.entityEnum.MaritalStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@ToString
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ScoringDataDTO {
     private BigDecimal amount;
     private Integer term;
@@ -31,11 +32,4 @@ public class ScoringDataDTO {
     private Boolean isInsuranceEnabled;
     private Boolean isSalaryClient;
 
-    public enum Gender {
-        MALE, FEMALE, NOT_BINARY
-    }
-
-    public enum MaritalStatus {
-        MARRIED, DIVORCED, SINGLE, WIDOW_WIDOWER
-    }
 }

@@ -1,11 +1,15 @@
 package ru.podgoretskaya.deal.json;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Passport {
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long passportID;
     private String series;
     private String number;

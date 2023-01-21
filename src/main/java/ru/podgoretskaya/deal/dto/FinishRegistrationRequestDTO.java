@@ -1,12 +1,14 @@
 package ru.podgoretskaya.deal.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import ru.podgoretskaya.deal.entityEnum.Gender;
+import ru.podgoretskaya.deal.entityEnum.MaritalStatus;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class FinishRegistrationRequestDTO {
     private Gender gender;
     private MaritalStatus maritalStatus;
@@ -16,11 +18,4 @@ public class FinishRegistrationRequestDTO {
     private EmploymentDTO employment;
     private String account;
 
-    public enum Gender {
-        MALE, FEMALE, NOT_BINARY
-    }
-
-    public enum MaritalStatus {
-        MARRIED, DIVORCED, SINGLE, WIDOW_WIDOWER
-    }
 }

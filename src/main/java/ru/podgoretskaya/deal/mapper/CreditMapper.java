@@ -13,16 +13,4 @@ public class CreditMapper {
         creditEntity.setTerm(model.getTerm());
         return creditEntity;
     }
-    public CreditEntity loanOfferDTOMapToEntity(LoanOfferDTO model){
-        CreditEntity creditEntity=new CreditEntity();
-        creditEntity.setClientID(model.getApplicationId());
-        creditEntity.setAmount(model.getRequestedAmount());
-        creditEntity.setAmount(model.getTotalAmount());
-        creditEntity.setRate(model.getRate());
-        creditEntity.setTerm(model.getTerm());
-        creditEntity.setMonthPayment(model.getMonthlyPayment());
-        creditEntity.setInsuranceEnabled(model.getIsInsuranceEnabled());
-        creditEntity.setSalaryClient(model.getIsSalaryClient());
-        return creditEntity;
-    }
 }

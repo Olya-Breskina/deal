@@ -7,7 +7,7 @@ import ru.podgoretskaya.deal.json.Passport;
 
 @Component
 public class ClientMapper {
-  public   ClientEntity mapToEntity(LoanApplicationRequestDTO model){
+  public   ClientEntity loanApplicationRequestDTOMapToEntity(LoanApplicationRequestDTO model){
       ClientEntity clientEntity=new ClientEntity();
       clientEntity.setFirstName(model.getFirstName());
       clientEntity.setLastName(model.getLastName());

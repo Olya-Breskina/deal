@@ -1,6 +1,7 @@
 package ru.podgoretskaya.deal.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.podgoretskaya.deal.client.ConveyorClient;
 import ru.podgoretskaya.deal.dto.LoanApplicationRequestDTO;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ApplicationServiceImpl implements ApplicationService {
     private final ClientMapper clientMapper;
     private final ClientRepo clientRepo;
@@ -28,40 +30,21 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<LoanOfferDTO> calculateConditions(LoanApplicationRequestDTO model) {
-        ClientEntity clientEntity = saveClientToDB(model);
-        CreditEntity creditEntity = saveCreditToDB(model);
-        saveApplicationToDB(clientEntity, creditEntity);
-      // saveApplicationToDB(model);
+        log.info("метод calculateConditions. Параметры: \"" + model.toString());
+      saveApplicationToDB(model);
         return sentRequestToConveyorService(model);
     }
 
-    private ClientEntity saveClientToDB(LoanApplicationRequestDTO model) {
-        ClientEntity clientEntity = clientMapper.mapToEntity(model);
-        return clientRepo.save(clientEntity);
-    }
-
-    private CreditEntity saveCreditToDB(LoanApplicationRequestDTO model) {
-        CreditEntity creditEntity = creditMapper.loanApplicationRequestDTOMapToEntity(model);
-        return creditRepo.save(creditEntity);
-    }
-
-        private ApplicationEntity saveApplicationToDB(ClientEntity clientEntity, CreditEntity creditEntity) {
-        ApplicationEntity applicationEntity = new ApplicationEntity();
-        applicationEntity.setClient(clientEntity);
-        applicationEntity.setCredit(creditEntity);
-        return applicationRepo.save(applicationEntity);
-    }
-   /*
     private ApplicationEntity saveApplicationToDB(LoanApplicationRequestDTO model) {
         ApplicationEntity applicationEntity = new ApplicationEntity();
-        ClientEntity clientEntity = clientMapper.mapToEntity(model);
+        ClientEntity clientEntity = clientMapper.loanApplicationRequestDTOMapToEntity(model);
+        clientRepo.save(clientEntity);
         CreditEntity creditEntity = creditMapper.loanApplicationRequestDTOMapToEntity(model);
+        creditRepo.save(creditEntity);
         applicationEntity.setClient(clientEntity);
         applicationEntity.setCredit(creditEntity);
-        //todo статус, дата, статус истории
-
         return applicationRepo.save(applicationEntity);
-    }*/
+    }
 
     private List<LoanOfferDTO> sentRequestToConveyorService(LoanApplicationRequestDTO model) {
         return conveyorClient.getOffersPages(model);

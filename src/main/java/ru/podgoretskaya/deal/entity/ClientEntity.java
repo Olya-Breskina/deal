@@ -1,8 +1,8 @@
 package ru.podgoretskaya.deal.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import ru.podgoretskaya.deal.entityEnum.Gender;
@@ -12,10 +12,12 @@ import ru.podgoretskaya.deal.json.Passport;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
-@Getter
-@Setter
+@Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Client")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class ClientEntity {
@@ -46,8 +48,5 @@ public class ClientEntity {
     private Employment employmentID;
 
     private String account;
-
-    public ClientEntity() {
-    }
 
 }

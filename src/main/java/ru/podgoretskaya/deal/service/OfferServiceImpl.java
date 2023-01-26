@@ -7,6 +7,7 @@ import ru.podgoretskaya.deal.client.ConveyorClient;
 import ru.podgoretskaya.deal.dto.LoanOfferDTO;
 import ru.podgoretskaya.deal.entity.ApplicationEntity;
 import ru.podgoretskaya.deal.entity.CreditEntity;
+import ru.podgoretskaya.deal.exception.EntityeNotFoundException;
 import ru.podgoretskaya.deal.json.StatusHistory;
 import ru.podgoretskaya.deal.mapper.CreditMapper;
 import ru.podgoretskaya.deal.repository.ApplicationRepo;
@@ -30,7 +31,7 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public void calculateConditions(LoanOfferDTO model) {
         log.info("метод calculateConditions. Параметры: \"" + model.toString());
-        ApplicationEntity applicationEntity = applicationRepo.findById(model.getApplicationId()).get();
+        ApplicationEntity applicationEntity = applicationRepo.findById(model.getApplicationId()).orElseThrow(()->new EntityeNotFoundException(model.getApplicationId()));
         applicationEntity.setStatus(PREAPPROVAL);//ApplicationStatus
 
         List<StatusHistory> historyStatuses = new ArrayList<>();

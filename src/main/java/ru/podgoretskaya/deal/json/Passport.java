@@ -1,10 +1,14 @@
 package ru.podgoretskaya.deal.json;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Passport {
 
     private String series;

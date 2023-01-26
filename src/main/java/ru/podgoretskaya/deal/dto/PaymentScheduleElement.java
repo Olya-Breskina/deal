@@ -1,16 +1,12 @@
 package ru.podgoretskaya.deal.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
 public class PaymentScheduleElement {
     private Integer number;
     private LocalDate date;

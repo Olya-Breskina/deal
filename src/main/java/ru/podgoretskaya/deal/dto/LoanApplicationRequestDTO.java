@@ -1,13 +1,13 @@
 package ru.podgoretskaya.deal.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoanApplicationRequestDTO {
     private BigDecimal amount;
     private Integer term;

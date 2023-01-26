@@ -28,10 +28,10 @@ import java.util.List;
 public class APIController {
     private final ApplicationService applicationService;//метод 1
     private final OfferService offerService;// метод 2
-    LoanApplicationRequestDTO operationOffersModel = new LoanApplicationRequestDTO();
-    LoanOfferDTO loanOfferDTO=new LoanOfferDTO();
-    FinishRegistrationRequestDTO finishRegistrationRequestDTO=new FinishRegistrationRequestDTO();
-    ScoringDataDTO operationCalculationModel = new ScoringDataDTO();
+//    LoanApplicationRequestDTO operationOffersModel = new LoanApplicationRequestDTO();
+//    LoanOfferDTO loanOfferDTO=new LoanOfferDTO();
+//    FinishRegistrationRequestDTO finishRegistrationRequestDTO=new FinishRegistrationRequestDTO();
+//    ScoringDataDTO operationCalculationModel = new ScoringDataDTO();
     private final CalculateScoringDataService calculateScoringDataService;// метод 3
 
 

@@ -9,13 +9,19 @@ import ru.podgoretskaya.deal.dto.LoanOfferDTO;
 import ru.podgoretskaya.deal.entity.ApplicationEntity;
 import ru.podgoretskaya.deal.entity.ClientEntity;
 import ru.podgoretskaya.deal.entity.CreditEntity;
+import ru.podgoretskaya.deal.json.StatusHistory;
 import ru.podgoretskaya.deal.mapper.ClientMapper;
 import ru.podgoretskaya.deal.mapper.CreditMapper;
 import ru.podgoretskaya.deal.repository.ApplicationRepo;
 import ru.podgoretskaya.deal.repository.ClientRepo;
 import ru.podgoretskaya.deal.repository.CreditRepo;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import static ru.podgoretskaya.deal.entityEnum.ApplicationStatus.PREAPPROVAL;
+import static ru.podgoretskaya.deal.entityEnum.ChangeType.AUTOMATIC;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +49,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         creditRepo.save(creditEntity);
         applicationEntity.setClient(clientEntity);
         applicationEntity.setCredit(creditEntity);
+        applicationEntity.setStatus(PREAPPROVAL);//ApplicationStatus
+
+        List<StatusHistory> historyStatuses = new ArrayList<>();
+        historyStatuses.add(new StatusHistory(PREAPPROVAL, LocalDateTime.now(), AUTOMATIC));
+        applicationEntity.setStatusHistiry(historyStatuses);
+        applicationRepo.save(applicationEntity);
     }
 
     private List<LoanOfferDTO> sentRequestToConveyorService(LoanApplicationRequestDTO model) {

@@ -2,16 +2,15 @@ package ru.podgoretskaya.deal.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import ru.podgoretskaya.deal.dto.Passport;
 import ru.podgoretskaya.deal.entity_enum.Gender;
 import ru.podgoretskaya.deal.entity_enum.MaritalStatus;
 import ru.podgoretskaya.deal.dto.Employment;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Data
 @Entity

@@ -12,7 +12,16 @@ import ru.podgoretskaya.deal.entity.ApplicationEntity;
 import ru.podgoretskaya.deal.entity.ClientEntity;
 import ru.podgoretskaya.deal.entity.CreditEntity;
 import ru.podgoretskaya.deal.exception.EntityNotFoundException;
+import ru.podgoretskaya.deal.json.StatusHistory;
 import ru.podgoretskaya.deal.repository.ApplicationRepo;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static ru.podgoretskaya.deal.entityEnum.ApplicationStatus.CC_APPROVED;
+import static ru.podgoretskaya.deal.entityEnum.ApplicationStatus.PREAPPROVAL;
+import static ru.podgoretskaya.deal.entityEnum.ChangeType.AUTOMATIC;
 
 
 @Service
@@ -53,10 +62,16 @@ public class CalculateScoringDataServiceImpl implements CalculateScoringDataServ
         scoringDataDTO.setIsInsuranceEnabled(applicationEntity.getAppliedOffer().getIsInsuranceEnabled());
         scoringDataDTO.setIsSalaryClient(applicationEntity.getAppliedOffer().getIsSalaryClient());
         log.info("заполнение scoringDataDTO. Параметры: \"" + scoringDataDTO);
+        applicationEntity.setStatus(CC_APPROVED);//ApplicationStatus
+
+        List<StatusHistory> historyStatuses = new ArrayList<>();
+        historyStatuses.add(new StatusHistory( CC_APPROVED, LocalDateTime.now(), AUTOMATIC));
+        applicationEntity.setStatusHistiry(historyStatuses);
+        applicationRepo.save(applicationEntity);
         return scoringDataDTO;
     }
 
-    private ResponseEntity<CreditDTO> getCalculationPages(ScoringDataDTO model) {
+    private CreditDTO getCalculationPages(ScoringDataDTO model) {
         return conveyorClient.getCalculationPages(model);
     }
 }

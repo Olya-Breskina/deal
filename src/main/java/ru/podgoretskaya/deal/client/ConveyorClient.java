@@ -17,5 +17,5 @@ public interface ConveyorClient {
    List<LoanOfferDTO>  getOffersPages(@RequestBody LoanApplicationRequestDTO model);
 
     @PostMapping(value = "/conveyor/calculation")
-    ResponseEntity<CreditDTO> getCalculationPages(@RequestBody ScoringDataDTO model);//название отличается от названия в MVP1 (в MVP1 ошибка в названии)
+    CreditDTO getCalculationPages(@RequestBody ScoringDataDTO model);//название отличается от названия в MVP1 (в MVP1 ошибка в названии)
 }

@@ -1,8 +1,9 @@
 package ru.podgoretskaya.deal.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import ru.podgoretskaya.deal.dto.PaymentScheduleElement;
@@ -11,7 +12,6 @@ import ru.podgoretskaya.deal.entity_enum.CreditStatus;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -22,7 +22,7 @@ import java.util.Objects;
 public class CreditEntity {
     @Id
     @SequenceGenerator(name = "CreditGenerator", initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="CreditGenerator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CreditGenerator")
     private Long clientID;
     private BigDecimal amount;
     private int term;
@@ -32,7 +32,7 @@ public class CreditEntity {
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-     private List<PaymentScheduleElement> paymentSchedule;
+    private List<PaymentScheduleElement> paymentSchedule;
 
     private boolean insuranceEnabled;
     private boolean salaryClient;

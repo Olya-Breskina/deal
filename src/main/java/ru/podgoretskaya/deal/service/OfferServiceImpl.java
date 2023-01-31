@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.podgoretskaya.deal.entityEnum.ApplicationStatus.PREAPPROVAL;
+import static ru.podgoretskaya.deal.entityEnum.ApplicationStatus.APPROVED;
 import static ru.podgoretskaya.deal.entityEnum.ChangeType.AUTOMATIC;
 
 @Service
@@ -27,10 +27,10 @@ public class OfferServiceImpl implements OfferService {
     public void calculateConditions(LoanOfferDTO model) {
         log.info("метод calculateConditions. Параметры: \"" + model.toString());
         ApplicationEntity applicationEntity = applicationRepo.findById(model.getApplicationId()).orElseThrow(() -> new EntityNotFoundException(model.getApplicationId()));
-        applicationEntity.setStatus(PREAPPROVAL);//ApplicationStatus
+        applicationEntity.setStatus(APPROVED);//ApplicationStatus
 
         List<StatusHistory> historyStatuses = new ArrayList<>();
-        historyStatuses.add(new StatusHistory(PREAPPROVAL, LocalDateTime.now(), AUTOMATIC));
+        historyStatuses.add(new StatusHistory(APPROVED, LocalDateTime.now(), AUTOMATIC));
         applicationEntity.setStatusHistiry(historyStatuses);
         applicationEntity.setAppliedOffer(model);
         applicationRepo.save(applicationEntity);

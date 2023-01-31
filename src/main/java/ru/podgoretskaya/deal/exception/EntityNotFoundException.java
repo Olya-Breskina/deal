@@ -1,10 +1,10 @@
 package ru.podgoretskaya.deal.exception;
 
-public class EntityeNotFoundException extends RuntimeException{
+public class EntityNotFoundException extends RuntimeException{
     private final Long id;
 
 
-    public EntityeNotFoundException(Long id) {
+    public EntityNotFoundException(Long id) {
         this.id = id;
     }
     @Override

@@ -1,6 +1,10 @@
 package ru.podgoretskaya.deal.dto;
 
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import ru.podgoretskaya.deal.entity_enum.EmploymentPosition;
 import ru.podgoretskaya.deal.entity_enum.EmploymentStatus;
 
@@ -9,12 +13,13 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmploymentDTO {
-    private EmploymentStatus employmentStatus;
-    private String employerINN;
+public class Employment {
+
+    private EmploymentStatus status;
+    private String employmentInn;
     private BigDecimal salary;
     private EmploymentPosition position;
-    private Integer workExperienceTotal;
-    private Integer workExperienceCurrent;
-
+    private int workExperienceTotal;
+    private int workExperienceCurrent;
 }
+

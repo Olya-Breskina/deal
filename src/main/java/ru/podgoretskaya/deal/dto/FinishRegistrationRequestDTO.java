@@ -1,8 +1,8 @@
 package ru.podgoretskaya.deal.dto;
 
 import lombok.*;
-import ru.podgoretskaya.deal.entityEnum.Gender;
-import ru.podgoretskaya.deal.entityEnum.MaritalStatus;
+import ru.podgoretskaya.deal.entity_enum.Gender;
+import ru.podgoretskaya.deal.entity_enum.MaritalStatus;
 
 import java.time.LocalDate;
 

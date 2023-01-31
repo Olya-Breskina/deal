@@ -6,8 +6,8 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import ru.podgoretskaya.deal.dto.LoanOfferDTO;
-import ru.podgoretskaya.deal.entityEnum.ApplicationStatus;
-import ru.podgoretskaya.deal.json.StatusHistory;
+import ru.podgoretskaya.deal.entity_enum.ApplicationStatus;
+import ru.podgoretskaya.deal.dto.StatusHistory;
 
 import javax.persistence.*;
 import java.time.LocalTime;
@@ -27,7 +27,7 @@ import java.util.Objects;
 public class ApplicationEntity {
     @Id
     @SequenceGenerator(name = "ApplicationGenerator", initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ApplicationGenerator")
     private Long applicationID;
 
     @OneToOne
@@ -41,7 +41,7 @@ public class ApplicationEntity {
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
 
-    private LocalTime creation_date;
+    private LocalTime creationDate;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
@@ -51,7 +51,7 @@ public class ApplicationEntity {
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<StatusHistory> statusHistiry;
+    private List<StatusHistory> statusHistory;
 
     @Override
     public boolean equals(Object o) {

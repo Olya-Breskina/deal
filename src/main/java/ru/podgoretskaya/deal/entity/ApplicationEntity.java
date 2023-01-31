@@ -23,7 +23,7 @@ import java.util.List;
 public class ApplicationEntity {
     @Id
     @SequenceGenerator(name = "ApplicationGenerator", initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ApplicationGenerator")
     private Long applicationID;
 
     @OneToOne

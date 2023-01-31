@@ -21,7 +21,7 @@ import java.time.LocalDate;
 public class ClientEntity {
     @Id
     @SequenceGenerator(name = "ClientGenerator", initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ClientGenerator")
     private Long clientID;
     private String lastName;
     private String firstName;

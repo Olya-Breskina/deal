@@ -20,7 +20,7 @@ import java.util.List;
 public class CreditEntity {
     @Id
     @SequenceGenerator(name = "CreditGenerator", initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="CreditGenerator")
     private Long clientID;
     private BigDecimal amount;
     private int term;

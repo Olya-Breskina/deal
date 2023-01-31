@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import ru.podgoretskaya.deal.entityEnum.Gender;
-import ru.podgoretskaya.deal.entityEnum.MaritalStatus;
-import ru.podgoretskaya.deal.json.Employment;
+import ru.podgoretskaya.deal.entity_enum.Gender;
+import ru.podgoretskaya.deal.entity_enum.MaritalStatus;
+import ru.podgoretskaya.deal.dto.Employment;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ import java.time.LocalDate;
 public class ClientEntity {
     @Id
     @SequenceGenerator(name = "ClientGenerator", initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long clientID;
     private String lastName;
     private String firstName;
@@ -45,8 +45,4 @@ public class ClientEntity {
     @Column(columnDefinition = "jsonb")
     private Employment employmentID;
     private String account;
-
-    public ClientEntity() {
-    }
-
 }

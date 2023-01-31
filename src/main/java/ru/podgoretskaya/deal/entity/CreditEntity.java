@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import ru.podgoretskaya.deal.dto.PaymentScheduleElement;
-import ru.podgoretskaya.deal.entityEnum.CreditStatus;
+import ru.podgoretskaya.deal.entity_enum.CreditStatus;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -20,7 +20,7 @@ import java.util.List;
 public class CreditEntity {
     @Id
     @SequenceGenerator(name = "CreditGenerator", initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long clientID;
     private BigDecimal amount;
     private int term;

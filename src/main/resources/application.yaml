@@ -1,4 +1,9 @@
 spring:
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    consumer:
+      group-id: dossier
   datasource:
     driver_class_name:
       org.postgresql.Driver

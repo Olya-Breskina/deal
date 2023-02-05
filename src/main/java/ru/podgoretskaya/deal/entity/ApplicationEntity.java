@@ -13,9 +13,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 
-@Getter
-@Setter
-@ToString
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

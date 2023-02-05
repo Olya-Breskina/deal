@@ -4,17 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.podgoretskaya.deal.dto.LoanOfferDTO;
+import ru.podgoretskaya.deal.dto.StatusHistory;
 import ru.podgoretskaya.deal.entity.ApplicationEntity;
 import ru.podgoretskaya.deal.exception.EntityNotFoundException;
-import ru.podgoretskaya.deal.json.StatusHistory;
 import ru.podgoretskaya.deal.repository.ApplicationRepo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.podgoretskaya.deal.entityEnum.ApplicationStatus.APPROVED;
-import static ru.podgoretskaya.deal.entityEnum.ChangeType.AUTOMATIC;
+import static ru.podgoretskaya.deal.entity_enum.ApplicationStatus.APPROVED;
+import static ru.podgoretskaya.deal.entity_enum.ChangeType.AUTOMATIC;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class OfferServiceImpl implements OfferService {
 
         List<StatusHistory> historyStatuses = new ArrayList<>();
         historyStatuses.add(new StatusHistory(APPROVED, LocalDateTime.now(), AUTOMATIC));
-        applicationEntity.setStatusHistiry(historyStatuses);
+        applicationEntity.setStatusHistory(historyStatuses);
         applicationEntity.setAppliedOffer(model);
         applicationRepo.save(applicationEntity);
     }

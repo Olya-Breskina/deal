@@ -44,7 +44,7 @@ public class ClientEntity {
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private Employment employmentID;
+    private Employment employment;
     private String account;
 
 }

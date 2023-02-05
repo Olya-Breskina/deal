@@ -1,8 +1,10 @@
 package ru.podgoretskaya.deal.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.podgoretskaya.deal.dto.FinishRegistrationRequestDTO;
 import ru.podgoretskaya.deal.dto.LoanApplicationRequestDTO;
 import ru.podgoretskaya.deal.dto.Passport;
+import ru.podgoretskaya.deal.entity.ApplicationEntity;
 import ru.podgoretskaya.deal.entity.ClientEntity;
 
 @Component
@@ -21,5 +23,14 @@ public class ClientMapper {
      clientEntity.setPassport(passport);
      //
       return clientEntity;
+    }
+    public ApplicationEntity finishRegistrationRequestDTOMapToEntity(FinishRegistrationRequestDTO model){
+        ApplicationEntity applicationEntity=new ApplicationEntity();
+        applicationEntity.getClient().setAccount(model.getAccount());
+        applicationEntity.getClient().setGender(model.getGender());
+        applicationEntity.getClient().setMaritalStatus(model.getMaritalStatus());
+        applicationEntity.getClient().setEmployment(model.getEmployment());
+
+        return applicationEntity;
     }
 }

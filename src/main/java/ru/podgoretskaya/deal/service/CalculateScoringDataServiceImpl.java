@@ -3,6 +3,7 @@ package ru.podgoretskaya.deal.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import ru.podgoretskaya.deal.client.ConveyorClient;
 import ru.podgoretskaya.deal.dto.CreditDTO;
 import ru.podgoretskaya.deal.dto.FinishRegistrationRequestDTO;
@@ -63,7 +64,7 @@ public class CalculateScoringDataServiceImpl implements CalculateScoringDataServ
             List<StatusHistory> historyStatuses = new ArrayList<>();
             historyStatuses.add(new StatusHistory(CC_APPROVED, LocalDateTime.now(), AUTOMATIC));
             applicationEntity.setStatusHistory(historyStatuses);
-       } catch (IllegalArgumentException e) {//?
+       } catch (HttpClientErrorException.BadRequest exception) {
             applicationEntity.setStatus(CC_DENIED);
             List<StatusHistory> historyStatuses = new ArrayList<>();
             historyStatuses.add(new StatusHistory(CC_DENIED, LocalDateTime.now(), AUTOMATIC));

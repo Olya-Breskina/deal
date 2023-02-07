@@ -64,7 +64,7 @@ public class CalculateScoringDataServiceImpl implements CalculateScoringDataServ
             List<StatusHistory> historyStatuses = new ArrayList<>();
             historyStatuses.add(new StatusHistory(CC_APPROVED, LocalDateTime.now(), AUTOMATIC));
             applicationEntity.setStatusHistory(historyStatuses);
-       } catch (HttpClientErrorException.BadRequest exception) {
+       } catch (NullPointerException e) {
             applicationEntity.setStatus(CC_DENIED);
             List<StatusHistory> historyStatuses = new ArrayList<>();
             historyStatuses.add(new StatusHistory(CC_DENIED, LocalDateTime.now(), AUTOMATIC));

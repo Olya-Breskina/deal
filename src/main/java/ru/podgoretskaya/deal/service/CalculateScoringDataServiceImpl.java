@@ -32,10 +32,8 @@ import static ru.podgoretskaya.deal.entity_enum.CreditStatus.CALCULATED;
 @Slf4j
 public class CalculateScoringDataServiceImpl implements CalculateScoringDataService {
     private final ApplicationRepo applicationRepo;
-    private final CreditRepo creditRepo;
     private final ConveyorClient conveyorClient;
     private final ApplicationMapper applicationMapper;
-    private final CreditMapper creditMapper;
     private final ClientMapper clientMapper;
 
     @Override

@@ -1,4 +1,4 @@
-package ru.podgoretskaya.deal.json;
+package ru.podgoretskaya.deal.dto;
 
 
 import lombok.AllArgsConstructor;

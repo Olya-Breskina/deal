@@ -14,8 +14,11 @@ import ru.podgoretskaya.deal.mapper.CreditMapper;
 import ru.podgoretskaya.deal.repository.ApplicationRepo;
 import ru.podgoretskaya.deal.repository.ClientRepo;
 import ru.podgoretskaya.deal.repository.CreditRepo;
+import ru.podgoretskaya.deal.util.HistiryManagerUtil;
 
 import java.util.List;
+
+import static ru.podgoretskaya.deal.entity_enum.ApplicationStatus.PREAPPROVAL;
 
 @Service
 @RequiredArgsConstructor
@@ -31,11 +34,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<LoanOfferDTO> calculateConditions(LoanApplicationRequestDTO model) {
         log.info("метод calculateConditions. Параметры: \"" + model.toString());
-      saveApplicationToDB(model);
+        saveApplicationToDB(model);
         return sentRequestToConveyorService(model);
     }
 
-    private ApplicationEntity saveApplicationToDB(LoanApplicationRequestDTO model) {
+    private void saveApplicationToDB(LoanApplicationRequestDTO model) {
         ApplicationEntity applicationEntity = new ApplicationEntity();
         ClientEntity clientEntity = clientMapper.loanApplicationRequestDTOMapToEntity(model);
         clientRepo.save(clientEntity);
@@ -43,7 +46,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         creditRepo.save(creditEntity);
         applicationEntity.setClient(clientEntity);
         applicationEntity.setCredit(creditEntity);
-        return applicationRepo.save(applicationEntity);
+        applicationEntity.setStatus(PREAPPROVAL);//ApplicationStatus
+        HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+        applicationRepo.save(applicationEntity);
     }
 
     private List<LoanOfferDTO> sentRequestToConveyorService(LoanApplicationRequestDTO model) {

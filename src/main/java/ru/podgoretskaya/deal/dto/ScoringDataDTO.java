@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
-import ru.podgoretskaya.deal.entityEnum.Gender;
-import ru.podgoretskaya.deal.entityEnum.MaritalStatus;
+import ru.podgoretskaya.deal.entity_enum.Gender;
+import ru.podgoretskaya.deal.entity_enum.MaritalStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -31,5 +31,4 @@ public class ScoringDataDTO {
     private String account;
     private Boolean isInsuranceEnabled;
     private Boolean isSalaryClient;
-
 }

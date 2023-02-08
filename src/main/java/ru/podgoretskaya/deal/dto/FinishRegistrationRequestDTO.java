@@ -1,6 +1,8 @@
 package ru.podgoretskaya.deal.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.podgoretskaya.deal.entity_enum.Gender;
 import ru.podgoretskaya.deal.entity_enum.MaritalStatus;
 
@@ -15,7 +17,7 @@ public class FinishRegistrationRequestDTO {
     private Integer dependentAmount;
     private LocalDate passportIssueDate;
     private String passportIssueBranch;
-    private Employment employment;
+    private EmploymentDTO employment;
     private String account;
 
 }

@@ -1,13 +1,15 @@
 package ru.podgoretskaya.deal.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import ru.podgoretskaya.deal.dto.EmploymentDTO;
 import ru.podgoretskaya.deal.dto.Passport;
 import ru.podgoretskaya.deal.entity_enum.Gender;
 import ru.podgoretskaya.deal.entity_enum.MaritalStatus;
-import ru.podgoretskaya.deal.dto.Employment;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -44,7 +46,7 @@ public class ClientEntity {
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private Employment employment;
+    private EmploymentDTO employment;
     private String account;
 
 }

@@ -27,7 +27,7 @@ public class ScoringDataDTO {
     private String passportIssueBranch;
     private MaritalStatus maritalStatus;
     private Integer dependentAmount;//зависимая сумма
-    private Employment employment;
+    private EmploymentDTO employment;
     private String account;
     private Boolean isInsuranceEnabled;
     private Boolean isSalaryClient;

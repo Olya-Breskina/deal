@@ -3,7 +3,6 @@ package ru.podgoretskaya.deal.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import ru.podgoretskaya.deal.client.ConveyorClient;
 import ru.podgoretskaya.deal.dto.CreditDTO;
 import ru.podgoretskaya.deal.dto.FinishRegistrationRequestDTO;
@@ -14,9 +13,8 @@ import ru.podgoretskaya.deal.entity.CreditEntity;
 import ru.podgoretskaya.deal.exception.EntityNotFoundException;
 import ru.podgoretskaya.deal.mapper.ApplicationMapper;
 import ru.podgoretskaya.deal.mapper.ClientMapper;
-import ru.podgoretskaya.deal.mapper.CreditMapper;
 import ru.podgoretskaya.deal.repository.ApplicationRepo;
-import ru.podgoretskaya.deal.repository.CreditRepo;
+import ru.podgoretskaya.deal.util.HistiryManagerUtil;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,10 +31,8 @@ import static ru.podgoretskaya.deal.entity_enum.CreditStatus.CALCULATED;
 @Slf4j
 public class CalculateScoringDataServiceImpl implements CalculateScoringDataService {
     private final ApplicationRepo applicationRepo;
-    private final CreditRepo creditRepo;
     private final ConveyorClient conveyorClient;
     private final ApplicationMapper applicationMapper;
-    private final CreditMapper creditMapper;
     private final ClientMapper clientMapper;
 
     @Override
@@ -44,10 +40,10 @@ public class CalculateScoringDataServiceImpl implements CalculateScoringDataServ
         log.info("метод calculateConditions. Параметры: \"" + model.toString() + ", " + applicationId);
         ApplicationEntity applicationEntity = applicationRepo.findById(applicationId).orElseThrow(() -> new EntityNotFoundException(applicationId));
         ScoringDataDTO scoringDataDTO = buildScoringData(model, applicationEntity);
-        applicationEntity=clientMapper.finishRegistrationRequestDTOMapToEntity(model);
-      try {
+        applicationEntity = clientMapper.finishRegistrationRequestDTOMapToEntity(model, applicationEntity);
+        try {
             CreditDTO creditALL = getCalculationPages(scoringDataDTO);
-            CreditEntity creditEntity = new CreditEntity();
+            CreditEntity creditEntity = applicationEntity.getCredit();
             creditEntity.setAmount(creditALL.getAmount());
             creditEntity.setTerm(creditALL.getTerm());
             creditEntity.setRate(creditALL.getRate());
@@ -55,19 +51,16 @@ public class CalculateScoringDataServiceImpl implements CalculateScoringDataServ
             creditEntity.setMonthPayment(creditALL.getMonthlyPayment());
             creditEntity.setInsuranceEnabled(creditALL.getIsInsuranceEnabled());
             creditEntity.setSalaryClient(creditALL.getIsSalaryClient());
-           creditEntity.setCreditStatus(CALCULATED);
+            creditEntity.setCreditStatus(CALCULATED);
             creditEntity.setPaymentSchedule(creditALL.getPaymentSchedule());
 
             applicationEntity.setCredit(creditEntity);
 
             applicationEntity.setStatus(CC_APPROVED);
-            List<StatusHistory> historyStatuses = new ArrayList<>();
-            historyStatuses.add(new StatusHistory(CC_APPROVED, LocalDateTime.now(), AUTOMATIC));
-            applicationEntity.setStatusHistory(historyStatuses);
-       } catch (NullPointerException e) {
+            HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+        } catch (NullPointerException e) {
             applicationEntity.setStatus(CC_DENIED);
-            List<StatusHistory> historyStatuses = new ArrayList<>();
-            historyStatuses.add(new StatusHistory(CC_DENIED, LocalDateTime.now(), AUTOMATIC));
+            HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
         } finally {
             applicationRepo.save(applicationEntity);
         }

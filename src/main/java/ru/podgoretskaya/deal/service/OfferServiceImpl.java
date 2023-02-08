@@ -8,6 +8,7 @@ import ru.podgoretskaya.deal.dto.StatusHistory;
 import ru.podgoretskaya.deal.entity.ApplicationEntity;
 import ru.podgoretskaya.deal.exception.EntityNotFoundException;
 import ru.podgoretskaya.deal.repository.ApplicationRepo;
+import ru.podgoretskaya.deal.util.HistiryManagerUtil;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,9 +30,7 @@ public class OfferServiceImpl implements OfferService {
         ApplicationEntity applicationEntity = applicationRepo.findById(model.getApplicationId()).orElseThrow(() -> new EntityNotFoundException(model.getApplicationId()));
         applicationEntity.setStatus(APPROVED);//ApplicationStatus
 
-        List<StatusHistory> historyStatuses = new ArrayList<>();
-        historyStatuses.add(new StatusHistory(APPROVED, LocalDateTime.now(), AUTOMATIC));
-        applicationEntity.setStatusHistory(historyStatuses);
+        HistiryManagerUtil.updateStatus(applicationEntity,applicationEntity.getStatus());
         applicationEntity.setAppliedOffer(model);
         applicationRepo.save(applicationEntity);
     }

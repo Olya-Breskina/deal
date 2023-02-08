@@ -9,23 +9,23 @@ import ru.podgoretskaya.deal.entity.ClientEntity;
 
 @Component
 public class ClientMapper {
-  public   ClientEntity loanApplicationRequestDTOMapToEntity(LoanApplicationRequestDTO model){
-      ClientEntity clientEntity=new ClientEntity();
-      clientEntity.setFirstName(model.getFirstName());
-      clientEntity.setLastName(model.getLastName());
-      clientEntity.setMiddleName(model.getMiddleName());
-      clientEntity.setBirthdate(model.getBirthdate());
-      clientEntity.setEmail(model.getEmail());
-      //для заполнения паспорта
-      Passport passport=new Passport();
-      passport.setNumber(model.getPassportNumber());
-      passport.setSeries(model.getPassportSeries());
-     clientEntity.setPassport(passport);
-     //
-      return clientEntity;
+    public ClientEntity loanApplicationRequestDTOMapToEntity(LoanApplicationRequestDTO model) {
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setFirstName(model.getFirstName());
+        clientEntity.setLastName(model.getLastName());
+        clientEntity.setMiddleName(model.getMiddleName());
+        clientEntity.setBirthdate(model.getBirthdate());
+        clientEntity.setEmail(model.getEmail());
+        //для заполнения паспорта
+        Passport passport = new Passport();
+        passport.setNumber(model.getPassportNumber());
+        passport.setSeries(model.getPassportSeries());
+        clientEntity.setPassport(passport);
+        //
+        return clientEntity;
     }
-    public ApplicationEntity finishRegistrationRequestDTOMapToEntity(FinishRegistrationRequestDTO model){
-        ApplicationEntity applicationEntity=new ApplicationEntity();
+
+    public ApplicationEntity finishRegistrationRequestDTOMapToEntity(FinishRegistrationRequestDTO model, ApplicationEntity applicationEntity) {
         applicationEntity.getClient().setAccount(model.getAccount());
         applicationEntity.getClient().setGender(model.getGender());
         applicationEntity.getClient().setMaritalStatus(model.getMaritalStatus());

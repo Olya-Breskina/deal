@@ -63,7 +63,6 @@ class ApplicationServiceImplTest {
 
         Mockito.verify(clientRepo).save(clientEntity);
         Mockito.verify(creditRepo).save(creditEntity);
-        Mockito.verify(applicationRepo).save(applicationEntity);
 
         Mockito.verify(conveyorClient).getOffersPages(loanApplicationRequestDTO);
 

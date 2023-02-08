@@ -13,9 +13,8 @@ import ru.podgoretskaya.deal.entity.CreditEntity;
 import ru.podgoretskaya.deal.exception.EntityNotFoundException;
 import ru.podgoretskaya.deal.mapper.ApplicationMapper;
 import ru.podgoretskaya.deal.mapper.ClientMapper;
-import ru.podgoretskaya.deal.mapper.CreditMapper;
 import ru.podgoretskaya.deal.repository.ApplicationRepo;
-import ru.podgoretskaya.deal.repository.CreditRepo;
+import ru.podgoretskaya.deal.util.HistiryManagerUtil;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -41,10 +40,10 @@ public class CalculateScoringDataServiceImpl implements CalculateScoringDataServ
         log.info("метод calculateConditions. Параметры: \"" + model.toString() + ", " + applicationId);
         ApplicationEntity applicationEntity = applicationRepo.findById(applicationId).orElseThrow(() -> new EntityNotFoundException(applicationId));
         ScoringDataDTO scoringDataDTO = buildScoringData(model, applicationEntity);
-        applicationEntity=clientMapper.finishRegistrationRequestDTOMapToEntity(model);
-      try {
+        applicationEntity = clientMapper.finishRegistrationRequestDTOMapToEntity(model, applicationEntity);
+        try {
             CreditDTO creditALL = getCalculationPages(scoringDataDTO);
-            CreditEntity creditEntity = new CreditEntity();
+            CreditEntity creditEntity = applicationEntity.getCredit();
             creditEntity.setAmount(creditALL.getAmount());
             creditEntity.setTerm(creditALL.getTerm());
             creditEntity.setRate(creditALL.getRate());
@@ -52,19 +51,16 @@ public class CalculateScoringDataServiceImpl implements CalculateScoringDataServ
             creditEntity.setMonthPayment(creditALL.getMonthlyPayment());
             creditEntity.setInsuranceEnabled(creditALL.getIsInsuranceEnabled());
             creditEntity.setSalaryClient(creditALL.getIsSalaryClient());
-           creditEntity.setCreditStatus(CALCULATED);
+            creditEntity.setCreditStatus(CALCULATED);
             creditEntity.setPaymentSchedule(creditALL.getPaymentSchedule());
 
             applicationEntity.setCredit(creditEntity);
 
             applicationEntity.setStatus(CC_APPROVED);
-            List<StatusHistory> historyStatuses = new ArrayList<>();
-            historyStatuses.add(new StatusHistory(CC_APPROVED, LocalDateTime.now(), AUTOMATIC));
-            applicationEntity.setStatusHistory(historyStatuses);
-       } catch (IllegalArgumentException e) {//?
+            HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+        } catch (NullPointerException e) {
             applicationEntity.setStatus(CC_DENIED);
-            List<StatusHistory> historyStatuses = new ArrayList<>();
-            historyStatuses.add(new StatusHistory(CC_DENIED, LocalDateTime.now(), AUTOMATIC));
+            HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
         } finally {
             applicationRepo.save(applicationEntity);
         }

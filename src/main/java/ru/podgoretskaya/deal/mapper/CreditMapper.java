@@ -2,6 +2,7 @@ package ru.podgoretskaya.deal.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.podgoretskaya.deal.dto.LoanApplicationRequestDTO;
+import ru.podgoretskaya.deal.entity.ApplicationEntity;
 import ru.podgoretskaya.deal.entity.CreditEntity;
 
 @Component

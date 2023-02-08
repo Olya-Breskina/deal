@@ -44,7 +44,7 @@ public class OfferServiceImpl implements OfferService {
         emailMessage.setAddress(applicationEntity.getClient().getEmail());
         emailMessage.setTheme(FINISH_REGISTRATION);
         emailMessage.setApplicationId(applicationEntity.getApplicationID());
-        dealKafkaProducer.finishRegistration(emailMessage.toString());
+        dealKafkaProducer.finishRegistration(emailMessage);
     }
 
 }

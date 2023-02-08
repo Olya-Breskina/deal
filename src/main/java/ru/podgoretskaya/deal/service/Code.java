@@ -3,22 +3,54 @@ package ru.podgoretskaya.deal.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.podgoretskaya.deal.dto.EmailMessage;
+import ru.podgoretskaya.deal.dto.Theme;
 import ru.podgoretskaya.deal.entity.ApplicationEntity;
+import ru.podgoretskaya.deal.repository.ApplicationRepo;
+import ru.podgoretskaya.deal.util.HistiryManagerUtil;
 
-import java.util.Random;
+import static ru.podgoretskaya.deal.dto.Theme.APPLICATION_DENIED;
+import static ru.podgoretskaya.deal.entity_enum.ApplicationStatus.*;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class Code {
-    public void sesCode(ApplicationEntity applicationEntity){
-        int [] sesCodeArray=new int[4];
-        for (int i=0; i<4; i++){
-            Random random=new Random();
-            int x= random.nextInt(9);
-            sesCodeArray[i]=x;
-        }
-        String sesCode=""+sesCodeArray[0]+sesCodeArray[1]+sesCodeArray[2]+sesCodeArray[3];
-        applicationEntity.setSesCode(sesCode);
+    private final ApplicationRepo applicationRepo;
+    private final DealKafkaProducer dealKafkaProducer;
+
+    public void verifyingSesCode(ApplicationEntity applicationEntity, String sesCode) {
+
+        if (applicationEntity.getSesCode().equals(sesCode)) sesCodeTRUE(applicationEntity);
+        else sesCodeFALSE(applicationEntity);
+        applicationEntity.setStatus(CREDIT_ISSUED);//ApplicationStatus
+        HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+        applicationRepo.save(applicationEntity);
+
+    }
+
+    private void sesCodeTRUE(ApplicationEntity applicationEntity) {
+        applicationEntity.setStatus(DOCUMENT_SIGNED);//ApplicationStatus
+        HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+        applicationRepo.save(applicationEntity);
+
+        EmailMessage emailMessage = new EmailMessage();
+        emailMessage.setAddress(applicationEntity.getClient().getEmail());
+        emailMessage.setTheme(Theme.CREDIT_ISSUED);
+        emailMessage.setApplicationId(applicationEntity.getApplicationID());
+        dealKafkaProducer.sendDocuments(emailMessage);
+    }
+
+    private void sesCodeFALSE(ApplicationEntity applicationEntity) {
+        applicationEntity.setStatus(CLIENT_DENIED);//ApplicationStatus
+        HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+        applicationRepo.save(applicationEntity);
+
+        EmailMessage emailMessage = new EmailMessage();
+        emailMessage.setAddress(applicationEntity.getClient().getEmail());
+        emailMessage.setTheme(APPLICATION_DENIED);
+        emailMessage.setApplicationId(applicationEntity.getApplicationID());
+        dealKafkaProducer.sendDocuments(emailMessage);
     }
 }
+

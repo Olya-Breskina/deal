@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.podgoretskaya.deal.dto.FinishRegistrationRequestDTO;
 import ru.podgoretskaya.deal.dto.LoanApplicationRequestDTO;
 import ru.podgoretskaya.deal.dto.LoanOfferDTO;
-import ru.podgoretskaya.deal.entity.ApplicationEntity;
-import ru.podgoretskaya.deal.service.ApplicationService;
-import ru.podgoretskaya.deal.service.CalculateScoringDataService;
-import ru.podgoretskaya.deal.service.Code;
-import ru.podgoretskaya.deal.service.OfferService;
+import ru.podgoretskaya.deal.service.*;
 
 import java.util.List;
 
@@ -29,7 +25,9 @@ public class APIController {
     private final ApplicationService applicationService;//метод 1
     private final OfferService offerService;// метод 2
     private final CalculateScoringDataService calculateScoringDataService;// метод 3
-    private final Code code;// ses_code
+    private final SendService sendService;
+    private final SingService singService;
+    private final Code code;
 
 
     @PostMapping(value = "/application")
@@ -55,21 +53,24 @@ public class APIController {
     public void updateStatus(@RequestBody FinishRegistrationRequestDTO model, @PathVariable Long applicationId) {
         log.info("вызов /calculate/{applicationId}. Параметры: \"" + model.toString() + ", " + applicationId);
         calculateScoringDataService.calculateConditions(model, applicationId);
-        //если правильно понимаю, тут должна быть кафка и отправка сообщения
     }
+
     @PostMapping(value = "/document/{applicationId}/send")
     @Operation(summary = "запрос на отправку документов")
-    public void send (@PathVariable Long applicationId) {
-        //бд, кафка
+    public void send(@PathVariable Long applicationId) {
+        SendService.sendDocuments(applicationId);
     }
-//    @PostMapping(value = "/document/{applicationId}/sign")
-//    @Operation(summary = "запрос на подписание документов")
-//    public ResponseEntity<List<LoanOfferDTO>> getOffersPages7(@RequestBody LoanApplicationRequestDTO model) {
-//    }
+
+    @PostMapping(value = "/document/{applicationId}/sign")
+    @Operation(summary = "запрос на подписание документов")
+    public void sign(@PathVariable Long applicationId) {
+        SingService.sendSes(applicationId);
+    }
+
     @PostMapping(value = "/document/{applicationId}/code")
     @Operation(summary = "подписание документов")
-    public void signingOfDocuments(@RequestBody ApplicationEntity applicationEntity) {
-        code.sesCode(applicationEntity);
+    public void code(@PathVariable Long applicationId, @PathVariable String sesCode) {
+        Code.verifyingSesCode(applicationId, sesCode);
     }
 
 }

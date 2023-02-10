@@ -9,8 +9,8 @@ import ru.podgoretskaya.deal.entity.ApplicationEntity;
 import ru.podgoretskaya.deal.repository.ApplicationRepo;
 import ru.podgoretskaya.deal.util.HistiryManagerUtil;
 
-import static ru.podgoretskaya.deal.dto.Theme.APPLICATION_DENIED;
-import static ru.podgoretskaya.deal.entity_enum.ApplicationStatus.*;
+import static ru.podgoretskaya.deal.entity_enum.ApplicationStatus.CREDIT_ISSUED;
+import static ru.podgoretskaya.deal.entity_enum.ApplicationStatus.DOCUMENT_SIGNED;
 
 @Service
 @RequiredArgsConstructor
@@ -19,14 +19,15 @@ public class Code {
     private final ApplicationRepo applicationRepo;
     private final DealKafkaProducer dealKafkaProducer;
 
-    public void verifyingSesCode(ApplicationEntity applicationEntity, String sesCode) {
 
-        if (applicationEntity.getSesCode().equals(sesCode)) sesCodeTRUE(applicationEntity);
-        else sesCodeFALSE(applicationEntity);
-        applicationEntity.setStatus(CREDIT_ISSUED);//ApplicationStatus
-        HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
-        applicationRepo.save(applicationEntity);
-
+    public void verifyingSesCode(Long applicationId, String sesCode) {
+        ApplicationEntity applicationEntity = applicationRepo.findById(applicationId).orElseThrow(IllegalArgumentException::new);
+        if (applicationEntity.getSesCode().equals(sesCode)) {
+            sesCodeTRUE(applicationEntity);
+            applicationEntity.setStatus(CREDIT_ISSUED);//ApplicationStatus
+            HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+            applicationRepo.save(applicationEntity);
+        }
     }
 
     private void sesCodeTRUE(ApplicationEntity applicationEntity) {
@@ -41,16 +42,5 @@ public class Code {
         dealKafkaProducer.sendDocuments(emailMessage);
     }
 
-    private void sesCodeFALSE(ApplicationEntity applicationEntity) {
-        applicationEntity.setStatus(CLIENT_DENIED);//ApplicationStatus
-        HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
-        applicationRepo.save(applicationEntity);
-
-        EmailMessage emailMessage = new EmailMessage();
-        emailMessage.setAddress(applicationEntity.getClient().getEmail());
-        emailMessage.setTheme(APPLICATION_DENIED);
-        emailMessage.setApplicationId(applicationEntity.getApplicationID());
-        dealKafkaProducer.sendDocuments(emailMessage);
-    }
 }
 

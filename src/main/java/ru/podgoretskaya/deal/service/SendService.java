@@ -20,15 +20,18 @@ public class SendService {
     private final ApplicationRepo applicationRepo;
     private final DealKafkaProducer dealKafkaProducer;
 
-    public void sendDocuments(ApplicationEntity applicationEntity){
-        applicationEntity.setStatus(DOCUMENT_CREATED);//ApplicationStatus
-        HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
-        applicationRepo.save(applicationEntity);
 
-        EmailMessage emailMessage=new EmailMessage();
-        emailMessage.setAddress(applicationEntity.getClient().getEmail());
-        emailMessage.setTheme(SEND_DOCUMENTS);
-        emailMessage.setApplicationId(applicationEntity.getApplicationID());
-        dealKafkaProducer.sendDocuments(emailMessage);
+    public void sendDocuments(Long applicationId){
+        ApplicationEntity applicationEntity= applicationRepo.findById(applicationId).orElseThrow(IllegalArgumentException::new);
+            applicationEntity.setStatus(DOCUMENT_CREATED);//ApplicationStatus
+            HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+            applicationRepo.save(applicationEntity);
+
+            EmailMessage emailMessage = new EmailMessage();
+            emailMessage.setAddress(applicationEntity.getClient().getEmail());
+            emailMessage.setTheme(SEND_DOCUMENTS);
+            emailMessage.setApplicationId(applicationEntity.getApplicationID());
+            dealKafkaProducer.sendDocuments(emailMessage);
+        }
     }
-}
+

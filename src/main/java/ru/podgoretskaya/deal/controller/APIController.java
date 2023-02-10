@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.podgoretskaya.deal.dto.ApplicationDTO;
 import ru.podgoretskaya.deal.dto.FinishRegistrationRequestDTO;
 import ru.podgoretskaya.deal.dto.LoanApplicationRequestDTO;
 import ru.podgoretskaya.deal.dto.LoanOfferDTO;
@@ -58,19 +59,24 @@ public class APIController {
     @PostMapping(value = "/document/{applicationId}/send")
     @Operation(summary = "запрос на отправку документов")
     public void send(@PathVariable Long applicationId) {
-        SendService.sendDocuments(applicationId);
+        sendService.sendDocuments(applicationId);
     }
 
     @PostMapping(value = "/document/{applicationId}/sign")
     @Operation(summary = "запрос на подписание документов")
     public void sign(@PathVariable Long applicationId) {
-        SingService.sendSes(applicationId);
+        singService.sendSes(applicationId);
+    }
+
+    @GetMapping(value = "/admin/application/{applicationId}")
+    @Operation(summary = "получить заявку по id")
+    public ApplicationDTO getApplication(@PathVariable Long applicationId) {
+        return applicationService.findApplicationById(applicationId);
     }
 
     @PostMapping(value = "/document/{applicationId}/code")
     @Operation(summary = "подписание документов")
-    public void code(@PathVariable Long applicationId, @PathVariable String sesCode) {
-        Code.verifyingSesCode(applicationId, sesCode);
+    public void documentCode( @RequestParam String sesCode,@PathVariable Long applicationId) {
+        code.verifyingSesCode(applicationId, sesCode);
     }
-
 }

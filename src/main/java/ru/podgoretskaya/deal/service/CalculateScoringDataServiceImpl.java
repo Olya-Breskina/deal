@@ -7,7 +7,6 @@ import ru.podgoretskaya.deal.client.ConveyorClient;
 import ru.podgoretskaya.deal.dto.CreditDTO;
 import ru.podgoretskaya.deal.dto.FinishRegistrationRequestDTO;
 import ru.podgoretskaya.deal.dto.ScoringDataDTO;
-import ru.podgoretskaya.deal.dto.StatusHistory;
 import ru.podgoretskaya.deal.entity.ApplicationEntity;
 import ru.podgoretskaya.deal.entity.CreditEntity;
 import ru.podgoretskaya.deal.exception.EntityNotFoundException;
@@ -16,13 +15,8 @@ import ru.podgoretskaya.deal.mapper.ClientMapper;
 import ru.podgoretskaya.deal.repository.ApplicationRepo;
 import ru.podgoretskaya.deal.util.HistiryManagerUtil;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import static ru.podgoretskaya.deal.entity_enum.ApplicationStatus.CC_APPROVED;
 import static ru.podgoretskaya.deal.entity_enum.ApplicationStatus.CC_DENIED;
-import static ru.podgoretskaya.deal.entity_enum.ChangeType.AUTOMATIC;
 import static ru.podgoretskaya.deal.entity_enum.CreditStatus.CALCULATED;
 
 
@@ -39,7 +33,7 @@ public class CalculateScoringDataServiceImpl implements CalculateScoringDataServ
     public void calculateConditions(FinishRegistrationRequestDTO model, Long applicationId) {
         log.info("метод calculateConditions. Параметры: \"" + model.toString() + ", " + applicationId);
         ApplicationEntity applicationEntity = applicationRepo.findById(applicationId).orElseThrow(() -> new EntityNotFoundException(applicationId));
-        ScoringDataDTO scoringDataDTO=applicationMapper.scoringDataDTOMapToEntity(model, applicationEntity);
+        ScoringDataDTO scoringDataDTO = applicationMapper.scoringDataDTOMapToEntity(model, applicationEntity);
         applicationEntity = clientMapper.finishRegistrationRequestDTOMapToEntity(model, applicationEntity);
         try {
             CreditDTO creditALL = getCalculationPages(scoringDataDTO);

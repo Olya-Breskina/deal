@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(APIController.class)
 class APIControllerTest {
-    ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     MockMvc mockMvc;
     @MockBean

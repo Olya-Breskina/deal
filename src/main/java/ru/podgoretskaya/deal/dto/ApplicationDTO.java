@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.type.LocalTimeType;
 import ru.podgoretskaya.deal.entity.ClientEntity;
 import ru.podgoretskaya.deal.entity.CreditEntity;
 import ru.podgoretskaya.deal.entity_enum.ApplicationStatus;
@@ -21,10 +22,8 @@ import java.util.List;
 public class ApplicationDTO {
 
     private Long applicationID;
-//    private ClientEntity client; //должны быть ДТО
-//    private CreditEntity credit;
     private ApplicationStatus status;
-    private LocalTime creationDate;
+    private LocalTimeType creationDate;
     private LoanOfferDTO appliedOffer;
     private String sesCode;
     private List<StatusHistory> statusHistory;

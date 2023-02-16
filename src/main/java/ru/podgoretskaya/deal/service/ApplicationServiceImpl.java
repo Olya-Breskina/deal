@@ -46,8 +46,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         creditRepo.save(creditEntity);
         applicationEntity.setClient(clientEntity);
         applicationEntity.setCredit(creditEntity);
-        applicationEntity.setStatus(PREAPPROVAL);//ApplicationStatus
-        HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+        HistiryManagerUtil.updateStatus(applicationEntity, PREAPPROVAL);
         applicationRepo.save(applicationEntity);
     }
 

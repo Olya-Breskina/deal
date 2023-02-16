@@ -1,0 +1,16 @@
+{
+  "gender": "FEMALE",
+  "maritalStatus": "DIVORCED",
+  "dependentAmount": "10",
+  "passportIssueDate": "2015-01-14",
+  "passportIssueBranch": "qazwsx",
+  "employment": {
+    "employmentStatus": "BUSINESS_OWNER",
+    "employerINN": "123-456-789",
+    "salary": 6000,
+    "position": "MID_MANAGER",
+    "workExperienceTotal": 7,
+    "workExperienceCurrent": 6
+  },
+  "account": "qaz"
+}

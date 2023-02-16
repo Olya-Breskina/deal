@@ -1,7 +1,7 @@
 databaseChangeLog:
   - include:
-      file: /db/change-logs/create-table-application.xml
-  - include:
       file: /db/change-logs/create-table-client.xml
   - include:
       file: /db/change-logs/create-table-credit.xml
+  - include:
+      file: /db/change-logs/create-table-application.xml

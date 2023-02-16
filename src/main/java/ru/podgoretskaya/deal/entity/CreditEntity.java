@@ -23,20 +23,24 @@ public class CreditEntity {
     @Id
     @SequenceGenerator(name = "CreditGenerator", initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CreditGenerator")
+    @Column(name = "credit_id", nullable = false)
     private Long clientID;
     private BigDecimal amount;
     private int term;
+    @Column(name = "monthly_payment")
     private BigDecimal monthPayment;
     private BigDecimal rate;
     private BigDecimal psk;
 
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", name = "payment_schedule")
     private List<PaymentScheduleElement> paymentSchedule;
-
+    @Column(name = "insurance_enable")
     private boolean insuranceEnabled;
+    @Column(name = "salary_client")
     private boolean salaryClient;
     @Enumerated(EnumType.STRING)
+    @Column(name = "credit_status")
     private CreditStatus creditStatus;
 
 }

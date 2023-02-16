@@ -1,15 +1,17 @@
 package ru.podgoretskaya.deal.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.type.LocalTimeType;
 import ru.podgoretskaya.deal.dto.LoanOfferDTO;
 import ru.podgoretskaya.deal.dto.StatusHistory;
 import ru.podgoretskaya.deal.entity_enum.ApplicationStatus;
 
 import javax.persistence.*;
-import java.time.LocalTime;
 import java.util.List;
 
 
@@ -24,6 +26,7 @@ public class ApplicationEntity {
     @Id
     @SequenceGenerator(name = "ApplicationGenerator", initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ApplicationGenerator")
+    @Column(name = "application_id", nullable = false)
     private Long applicationID;
 
     @OneToOne
@@ -37,7 +40,8 @@ public class ApplicationEntity {
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
 
-    private LocalTime creationDate;
+    @Column(name = "creation_date")
+    private LocalTimeType creationDate;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")

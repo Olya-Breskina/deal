@@ -41,7 +41,7 @@ public class CalculateScoringDataServiceImpl implements CalculateScoringDataServ
     public void calculateConditions(FinishRegistrationRequestDTO model, Long applicationId) {
         log.info("метод calculateConditions. Параметры: \"" + model.toString() + ", " + applicationId);
         ApplicationEntity applicationEntity = applicationRepo.findById(applicationId).orElseThrow(() -> new EntityNotFoundException(applicationId));
-        ScoringDataDTO scoringDataDTO = buildScoringData(model, applicationEntity);
+        ScoringDataDTO scoringDataDTO = applicationMapper.scoringDataDTOMapToEntity(model, applicationEntity);
         applicationEntity = clientMapper.finishRegistrationRequestDTOMapToEntity(model, applicationEntity);
         try {
             CreditDTO creditALL = getCalculationPages(scoringDataDTO);
@@ -58,34 +58,15 @@ public class CalculateScoringDataServiceImpl implements CalculateScoringDataServ
 
             applicationEntity.setCredit(creditEntity);
 
-            applicationEntity.setStatus(CC_APPROVED);
-            HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+            HistiryManagerUtil.updateStatus(applicationEntity, CC_APPROVED);
         } catch (NullPointerException e) {
-            applicationEntity.setStatus(CC_DENIED);
-            HistiryManagerUtil.updateStatus(applicationEntity, applicationEntity.getStatus());
+            HistiryManagerUtil.updateStatus(applicationEntity, CC_DENIED);
         } finally {
             applicationRepo.save(applicationEntity);
         }
     }
 
-    private ScoringDataDTO buildScoringData(FinishRegistrationRequestDTO model, ApplicationEntity applicationEntity) {
-        ScoringDataDTO scoringDataDTO = applicationMapper.scoringDataDTOMapToEntity(model, applicationEntity);
-        applicationEntity.setStatus(CC_APPROVED);
-        List<StatusHistory> historyStatuses = new ArrayList<>();
-        historyStatuses.add(new StatusHistory(CC_APPROVED, LocalDateTime.now(), AUTOMATIC));
-        applicationEntity.setStatusHistory(historyStatuses);
-        applicationRepo.save(applicationEntity);
-        return scoringDataDTO;
-    }
-
     private CreditDTO getCalculationPages(ScoringDataDTO model) {
         return conveyorClient.getCalculationPages(model);
-    }
-    private void createDocuments(ApplicationEntity applicationEntity){
-        EmailMessage emailMessage=new EmailMessage();
-        emailMessage.setAddress(applicationEntity.getClient().getEmail());
-        emailMessage.setTheme(CREATE_DOCUMENTS);
-        emailMessage.setApplicationId(applicationEntity.getApplicationID());
-        dealKafkaProducer.createDocuments(emailMessage);
     }
 }

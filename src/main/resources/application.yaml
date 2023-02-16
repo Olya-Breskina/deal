@@ -1,3 +1,8 @@
+server:
+  port: 8081
+logging:
+  level:
+    ru.podgoretskaya: DEBUG
 spring:
   kafka:
     bootstrap-servers:
@@ -13,9 +18,10 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: 'update'
-server:
-  port: 8081
-logging:
-  level:
-    ru.podgoretskaya: DEBUG
+      ddl-auto: 'validate'
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/change-log-master.yaml
+  main:
+    allow-bean-definition-overriding: true
+

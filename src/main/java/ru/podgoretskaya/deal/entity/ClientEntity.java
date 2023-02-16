@@ -25,6 +25,7 @@ public class ClientEntity {
     @Id
     @SequenceGenerator(name = "ClientGenerator", initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ClientGenerator")
+    @Column(name = "client_id", nullable = false)
     private Long clientID;
     private String lastName;
     private String firstName;
@@ -36,9 +37,11 @@ public class ClientEntity {
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "marital_status")
     private MaritalStatus maritalStatus;
 
-    private int dependentAmout;
+    @Column(name = "dependent_amount")
+    private int dependentAmount;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")

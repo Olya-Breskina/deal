@@ -16,4 +16,5 @@ public class EmploymentDTO {
     private EmploymentPosition position;
     private Integer workExperienceTotal;
     private Integer workExperienceCurrent;
+
 }

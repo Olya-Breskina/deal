@@ -4,6 +4,13 @@ spring:
       org.postgresql.Driver
     url:
       jdbc:postgresql://localhost:5432/deal
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: 'create-drop'
+      ddl-auto: 'update'
+server:
+  port: 8081
+logging:
+  level:
+    ru.podgoretskaya: DEBUG

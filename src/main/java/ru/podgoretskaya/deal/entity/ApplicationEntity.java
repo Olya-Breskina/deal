@@ -1,21 +1,21 @@
 package ru.podgoretskaya.deal.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import ru.podgoretskaya.deal.dto.LoanOfferDTO;
-import ru.podgoretskaya.deal.entity_enum.ApplicationStatus;
 import ru.podgoretskaya.deal.dto.StatusHistory;
+import ru.podgoretskaya.deal.entity_enum.ApplicationStatus;
 
 import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
 
-@Getter
-@Setter
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "Application")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)

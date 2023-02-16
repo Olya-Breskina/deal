@@ -1,5 +1,6 @@
 package ru.podgoretskaya.deal.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Passport {
 
-    private Long passportID;
     private String series;
     private String number;
     private LocalDate issueDate;

@@ -1,20 +1,23 @@
 package ru.podgoretskaya.deal.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import ru.podgoretskaya.deal.dto.EmploymentDTO;
+import ru.podgoretskaya.deal.dto.Passport;
 import ru.podgoretskaya.deal.entity_enum.Gender;
 import ru.podgoretskaya.deal.entity_enum.MaritalStatus;
-import ru.podgoretskaya.deal.dto.Employment;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Client")
 
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
@@ -39,10 +42,11 @@ public class ClientEntity {
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private Long passportID;
+    private Passport passport;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private Employment employmentID;
+    private EmploymentDTO employment;
     private String account;
+
 }

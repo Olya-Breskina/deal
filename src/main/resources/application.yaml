@@ -19,6 +19,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: 'validate'
+      naming:
+        physical-strategy: com.vladmihalcea.hibernate.naming.CamelCaseToSnakeCaseNamingStrategy
   liquibase:
     enabled: true
     change-log: classpath:/db/change-log-master.yaml

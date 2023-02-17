@@ -24,7 +24,7 @@ public class CreditEntity {
     @SequenceGenerator(name = "CreditGenerator", initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CreditGenerator")
     @Column(name = "credit_id", nullable = false)
-    private Long clientID;
+    private Long creditID;
     private BigDecimal amount;
     private int term;
     @Column(name = "monthly_payment")

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.podgoretskaya.deal.client.ConveyorClient;
+import ru.podgoretskaya.deal.dto.ApplicationDTO;
 import ru.podgoretskaya.deal.dto.LoanApplicationRequestDTO;
 import ru.podgoretskaya.deal.dto.LoanOfferDTO;
 import ru.podgoretskaya.deal.entity.ApplicationEntity;
@@ -19,6 +20,8 @@ import ru.podgoretskaya.deal.util.HistiryManagerUtil;
 import java.util.List;
 
 import static ru.podgoretskaya.deal.entity_enum.ApplicationStatus.PREAPPROVAL;
+import static ru.podgoretskaya.deal.mapper.ApplicationMapper.mapEntityToDTO;
+
 
 @Service
 @RequiredArgsConstructor
@@ -52,5 +55,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private List<LoanOfferDTO> sentRequestToConveyorService(LoanApplicationRequestDTO model) {
         return conveyorClient.getOffersPages(model);
+    }
+
+    @Override
+    public ApplicationDTO findApplicationById(Long applicationId) {
+        ApplicationEntity applicationEntity = applicationRepo.findById(applicationId).orElseThrow(IllegalArgumentException::new);
+        return mapEntityToDTO(applicationEntity);
     }
 }

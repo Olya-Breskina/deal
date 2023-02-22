@@ -8,12 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.podgoretskaya.deal.dto.ApplicationDTO;
 import ru.podgoretskaya.deal.dto.FinishRegistrationRequestDTO;
 import ru.podgoretskaya.deal.dto.LoanApplicationRequestDTO;
 import ru.podgoretskaya.deal.dto.LoanOfferDTO;
-import ru.podgoretskaya.deal.service.ApplicationService;
-import ru.podgoretskaya.deal.service.CalculateScoringDataService;
-import ru.podgoretskaya.deal.service.OfferService;
+import ru.podgoretskaya.deal.service.*;
 
 import java.util.List;
 
@@ -27,6 +26,9 @@ public class APIController {
     private final ApplicationService applicationService;//метод 1
     private final OfferService offerService;// метод 2
     private final CalculateScoringDataService calculateScoringDataService;// метод 3
+    private final SendService sendService;
+    private final SingService singService;
+    private final Code code;
 
 
     @PostMapping(value = "/application")
@@ -54,4 +56,27 @@ public class APIController {
         calculateScoringDataService.calculateConditions(model, applicationId);
     }
 
+    @PostMapping(value = "/document/{applicationId}/send")
+    @Operation(summary = "запрос на отправку документов")
+    public void send(@PathVariable Long applicationId) {
+        sendService.sendDocuments(applicationId);
+    }
+
+    @PostMapping(value = "/document/{applicationId}/sign")
+    @Operation(summary = "запрос на подписание документов")
+    public void sign(@PathVariable Long applicationId) {
+        singService.sendSes(applicationId);
+    }
+
+    @GetMapping(value = "/admin/application/{applicationId}")
+    @Operation(summary = "получить заявку по id")
+    public ApplicationDTO getApplication(@PathVariable Long applicationId) {
+        return applicationService.findApplicationById(applicationId);
+    }
+
+    @PostMapping(value = "/document/{applicationId}/code")
+    @Operation(summary = "подписание документов")
+    public void documentCode( @RequestParam String sesCode,@PathVariable Long applicationId) {
+        code.verifyingSesCode(applicationId, sesCode);
+    }
 }

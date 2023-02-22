@@ -4,6 +4,11 @@ logging:
   level:
     ru.podgoretskaya: DEBUG
 spring:
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    consumer:
+      group-id: dossier
   datasource:
     driver_class_name:
       org.postgresql.Driver
@@ -14,6 +19,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: 'validate'
+      naming:
+        physical-strategy: com.vladmihalcea.hibernate.naming.CamelCaseToSnakeCaseNamingStrategy
   liquibase:
     enabled: true
     change-log: classpath:/db/change-log-master.yaml

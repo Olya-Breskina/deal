@@ -1,7 +1,8 @@
 package ru.podgoretskaya.deal.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -10,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreditDTO {
-    @Schema(description = "сумма кредита")
     private BigDecimal amount;
     private Integer term;
     private BigDecimal monthlyPayment;
